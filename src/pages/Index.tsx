@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MessageSquare, Users, Activity, Shield, ChevronRight } from "lucide-react";
+import { MessageSquare, Users, Activity, Shield, ChevronRight, Github, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -20,11 +20,14 @@ const Index = () => {
                 <p className="text-xs text-slate-500">Healthcare Professional Portal</p>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-1 text-sm text-slate-600">
                 <Shield className="h-4 w-4" />
                 <span>HIPAA Compliant</span>
               </div>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/auth/login">Sign Out</Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -122,10 +125,21 @@ const Index = () => {
       <footer className="bg-slate-900 text-white mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
+            <div className="flex items-center justify-center space-x-4 mb-4">
+              <a href="#" className="text-slate-400 hover:text-slate-300 transition-colors">
+                <Github className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-slate-400 hover:text-slate-300 transition-colors">
+                <Linkedin className="h-5 w-5" />
+              </a>
+            </div>
             <p className="text-slate-300">
               MedQuery - Supporting Healthcare Excellence
             </p>
-            <p className="text-xs text-slate-500 mt-2">
+            <p className="text-xs text-slate-400 mt-2">
+              Developed by Omar Elhanafy
+            </p>
+            <p className="text-xs text-slate-500 mt-1">
               This system is designed to assist healthcare professionals and is not intended to replace clinical judgment.
             </p>
           </div>

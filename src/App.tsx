@@ -10,6 +10,8 @@ import GeneralChat from "./pages/chat/general";
 import PatientSpecificChat from "./pages/chat/patient-specific";
 import ViewAllPatients from "./pages/patients/view-all";
 import ViewOnePatient from "./pages/patients/view-one";
+import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/SignUp";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +22,10 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/signup" element={<SignUp />} />
+          <Route path="/dashboard" element={<Index />} />
           <Route path="/chat/general" element={<GeneralChat />} />
           <Route path="/chat/patient/:id" element={<PatientSpecificChat />} />
           <Route path="/patients/view-all" element={<ViewAllPatients />} />
