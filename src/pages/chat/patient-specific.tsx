@@ -2,27 +2,28 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, MessageSquare, Send, Clock, User, Bot } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeft, MessageSquare, Send, Clock, User, Bot, FileText } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 
-const GeneralChat = () => {
+const PatientSpecificChat = () => {
+  const { id } = useParams();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
     {
       id: 1,
       type: "ai",
-      content: "Hello! I'm your medical AI assistant. How can I help you with your clinical questions today?",
+      content: "Hello! I'm ready to assist with medical questions specific to Sarah Johnson. I have access to her medical history including hypertension, type 2 diabetes, and penicillin allergy. How can I help you today?",
       timestamp: new Date()
     }
   ]);
 
-  const recentChats = [
-    { id: 1, title: "Drug interaction: Warfarin and Aspirin", timestamp: "2 hours ago" },
-    { id: 2, title: "Symptoms of acute myocardial infarction", timestamp: "1 day ago" },
-    { id: 3, title: "Pediatric dosing for amoxicillin", timestamp: "2 days ago" },
-    { id: 4, title: "Differential diagnosis for chest pain", timestamp: "3 days ago" },
-    { id: 5, title: "Post-operative care guidelines", timestamp: "1 week ago" }
+  const patientChats = [
+    { id: 1, title: "Diabetes medication adjustment", timestamp: "1 hour ago" },
+    { id: 2, title: "Blood pressure monitoring", timestamp: "2 days ago" },
+    { id: 3, title: "Allergy considerations for treatment", timestamp: "1 week ago" },
+    { id: 4, title: "Exercise recommendations", timestamp: "2 weeks ago" },
+    { id: 5, title: "Dietary consultation", timestamp: "1 month ago" }
   ];
 
   const handleSendMessage = () => {
@@ -41,7 +42,7 @@ const GeneralChat = () => {
         const aiResponse = {
           id: messages.length + 2,
           type: "ai",
-          content: "I understand your question. Let me provide you with evidence-based medical information...",
+          content: "Based on Sarah's medical history and current conditions, I recommend...",
           timestamp: new Date()
         };
         setMessages(prev => [...prev, aiResponse]);
@@ -55,25 +56,36 @@ const GeneralChat = () => {
       <div className="w-80 bg-white border-r border-slate-200 flex flex-col">
         <div className="p-6 border-b border-slate-200">
           <Button asChild variant="ghost" size="sm" className="mb-4">
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to={`/patients/${id}`} className="flex items-center space-x-2">
               <ArrowLeft className="h-4 w-4" />
-              <span>Back to Home</span>
+              <span>Back to Patient</span>
             </Link>
           </Button>
-          <h2 className="text-lg font-semibold text-slate-900 mb-2">MedQuery AI</h2>
-          <p className="text-sm text-slate-600">
-            Your AI-powered medical consultation assistant. Ask questions about symptoms, 
-            treatments, drug interactions, and clinical protocols.
+          <div className="flex items-center space-x-2 mb-2">
+            <FileText className="h-5 w-5 text-emerald-600" />
+            <h2 className="text-lg font-semibold text-slate-900">Patient: Sarah Johnson</h2>
+          </div>
+          <p className="text-sm text-slate-600 mb-4">
+            AI consultation with access to patient medical history, current conditions, and treatment plans.
           </p>
+          
+          <div className="bg-slate-50 p-3 rounded-lg">
+            <h3 className="text-sm font-medium text-slate-900 mb-2">Key Medical Info:</h3>
+            <ul className="text-xs text-slate-600 space-y-1">
+              <li>• Hypertension (2020)</li>
+              <li>• Type 2 Diabetes (2018)</li>
+              <li>• Allergic to Penicillin</li>
+            </ul>
+          </div>
         </div>
         
         <div className="flex-1 p-6">
           <h3 className="text-sm font-medium text-slate-900 mb-4 flex items-center">
             <Clock className="h-4 w-4 mr-2" />
-            Recent Conversations
+            Patient Chat History
           </h3>
           <div className="space-y-2">
-            {recentChats.map((chat) => (
+            {patientChats.map((chat) => (
               <div key={chat.id} className="p-3 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer transition-colors">
                 <p className="text-sm font-medium text-slate-900 truncate">{chat.title}</p>
                 <p className="text-xs text-slate-500 mt-1">{chat.timestamp}</p>
@@ -88,8 +100,8 @@ const GeneralChat = () => {
         <header className="bg-white shadow-sm border-b border-slate-200">
           <div className="px-6 py-4">
             <h1 className="text-xl font-semibold text-slate-900 flex items-center">
-              <MessageSquare className="h-5 w-5 text-blue-600 mr-2" />
-              General Medical Q&A
+              <MessageSquare className="h-5 w-5 text-emerald-600 mr-2" />
+              Patient-Specific Medical Q&A
             </h1>
           </div>
         </header>
@@ -100,7 +112,7 @@ const GeneralChat = () => {
             <div key={msg.id} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-2xl flex items-start space-x-3 ${msg.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  msg.type === 'user' ? 'bg-blue-600' : 'bg-emerald-600'
+                  msg.type === 'user' ? 'bg-emerald-600' : 'bg-blue-600'
                 }`}>
                   {msg.type === 'user' ? (
                     <User className="h-4 w-4 text-white" />
@@ -110,12 +122,12 @@ const GeneralChat = () => {
                 </div>
                 <div className={`rounded-lg px-4 py-3 ${
                   msg.type === 'user' 
-                    ? 'bg-blue-600 text-white' 
+                    ? 'bg-emerald-600 text-white' 
                     : 'bg-white border border-slate-200 text-slate-900'
                 }`}>
                   <p className="text-sm">{msg.content}</p>
                   <p className={`text-xs mt-1 ${
-                    msg.type === 'user' ? 'text-blue-100' : 'text-slate-500'
+                    msg.type === 'user' ? 'text-emerald-100' : 'text-slate-500'
                   }`}>
                     {msg.timestamp.toLocaleTimeString()}
                   </p>
@@ -131,11 +143,11 @@ const GeneralChat = () => {
             <Input
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Ask a medical question..."
+              placeholder="Ask about this patient's condition or treatment..."
               className="flex-1"
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             />
-            <Button onClick={handleSendMessage} className="bg-blue-600 hover:bg-blue-700">
+            <Button onClick={handleSendMessage} className="bg-emerald-600 hover:bg-emerald-700">
               <Send className="h-4 w-4" />
             </Button>
           </div>
@@ -145,4 +157,4 @@ const GeneralChat = () => {
   );
 };
 
-export default GeneralChat;
+export default PatientSpecificChat;

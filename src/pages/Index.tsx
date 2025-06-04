@@ -16,7 +16,7 @@ const Index = () => {
                 <Activity className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-slate-900">Medical QA Assistant</h1>
+                <h1 className="text-xl font-semibold text-slate-900">MedQuery</h1>
                 <p className="text-xs text-slate-500">Healthcare Professional Portal</p>
               </div>
             </div>
@@ -123,7 +123,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <p className="text-slate-300">
-              Medical QA Assistant - Supporting Healthcare Excellence
+              MedQuery - Supporting Healthcare Excellence
             </p>
             <p className="text-xs text-slate-500 mt-2">
               This system is designed to assist healthcare professionals and is not intended to replace clinical judgment.
