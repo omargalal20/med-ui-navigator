@@ -2,9 +2,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, MessageSquare, Send, Clock, User, Bot } from "lucide-react";
+import { ArrowLeft, MessageSquare, Send, Clock, User, Bot, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 const GeneralChat = () => {
   const [message, setMessage] = useState("");
@@ -49,56 +56,99 @@ const GeneralChat = () => {
     }
   };
 
+  const SidebarContent = () => (
+    <>
+      <div className="p-6 border-b border-slate-200">
+        <h2 className="text-lg font-semibold text-slate-900 mb-2">MedQuery AI</h2>
+        <p className="text-sm text-slate-600">
+          Your AI-powered medical consultation assistant. Ask questions about symptoms, 
+          treatments, drug interactions, and clinical protocols.
+        </p>
+      </div>
+      
+      <div className="flex-1 p-6">
+        <h3 className="text-sm font-medium text-slate-900 mb-4 flex items-center">
+          <Clock className="h-4 w-4 mr-2" />
+          Recent Conversations
+        </h3>
+        <div className="space-y-2">
+          {recentChats.map((chat) => (
+            <div key={chat.id} className="p-3 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer transition-colors">
+              <p className="text-sm font-medium text-slate-900 truncate">{chat.title}</p>
+              <p className="text-xs text-slate-500 mt-1">{chat.timestamp}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex">
-      {/* Sidebar */}
-      <div className="w-80 bg-white border-r border-slate-200 flex flex-col">
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex w-80 bg-white border-r border-slate-200 flex-col">
         <div className="p-6 border-b border-slate-200">
           <Button asChild variant="ghost" size="sm" className="mb-4">
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to="/dashboard" className="flex items-center space-x-2">
               <ArrowLeft className="h-4 w-4" />
               <span>Back to Home</span>
             </Link>
           </Button>
-          <h2 className="text-lg font-semibold text-slate-900 mb-2">MedQuery AI</h2>
-          <p className="text-sm text-slate-600">
-            Your AI-powered medical consultation assistant. Ask questions about symptoms, 
-            treatments, drug interactions, and clinical protocols.
-          </p>
         </div>
-        
-        <div className="flex-1 p-6">
-          <h3 className="text-sm font-medium text-slate-900 mb-4 flex items-center">
-            <Clock className="h-4 w-4 mr-2" />
-            Recent Conversations
-          </h3>
-          <div className="space-y-2">
-            {recentChats.map((chat) => (
-              <div key={chat.id} className="p-3 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer transition-colors">
-                <p className="text-sm font-medium text-slate-900 truncate">{chat.title}</p>
-                <p className="text-xs text-slate-500 mt-1">{chat.timestamp}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <SidebarContent />
       </div>
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         <header className="bg-white shadow-sm border-b border-slate-200">
-          <div className="px-6 py-4">
-            <h1 className="text-xl font-semibold text-slate-900 flex items-center">
-              <MessageSquare className="h-5 w-5 text-blue-600 mr-2" />
-              General Medical Q&A
-            </h1>
+          <div className="px-4 md:px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              {/* Mobile Menu Button */}
+              <Drawer>
+                <DrawerTrigger asChild>
+                  <Button variant="ghost" size="sm" className="md:hidden">
+                    <Menu className="h-4 w-4" />
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent className="h-[80vh]">
+                  <DrawerHeader>
+                    <DrawerTitle className="flex items-center justify-between">
+                      <span>MedQuery AI</span>
+                      <Button asChild variant="ghost" size="sm">
+                        <Link to="/dashboard" className="flex items-center space-x-2">
+                          <ArrowLeft className="h-4 w-4" />
+                          <span>Back</span>
+                        </Link>
+                      </Button>
+                    </DrawerTitle>
+                  </DrawerHeader>
+                  <div className="flex-1 overflow-y-auto">
+                    <SidebarContent />
+                  </div>
+                </DrawerContent>
+              </Drawer>
+              
+              <h1 className="text-lg md:text-xl font-semibold text-slate-900 flex items-center">
+                <MessageSquare className="h-5 w-5 text-blue-600 mr-2" />
+                General Medical Q&A
+              </h1>
+            </div>
+            
+            {/* Desktop Back Button */}
+            <Button asChild variant="ghost" size="sm" className="hidden md:flex">
+              <Link to="/dashboard" className="flex items-center space-x-2">
+                <ArrowLeft className="h-4 w-4" />
+                <span>Back to Home</span>
+              </Link>
+            </Button>
           </div>
         </header>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
           {messages.map((msg) => (
             <div key={msg.id} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-2xl flex items-start space-x-3 ${msg.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+              <div className={`max-w-[85%] md:max-w-2xl flex items-start space-x-3 ${msg.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   msg.type === 'user' ? 'bg-blue-600' : 'bg-emerald-600'
                 }`}>
@@ -126,8 +176,8 @@ const GeneralChat = () => {
         </div>
 
         {/* Message Input */}
-        <div className="border-t border-slate-200 bg-white p-6">
-          <div className="flex space-x-4">
+        <div className="border-t border-slate-200 bg-white p-4 md:p-6">
+          <div className="flex space-x-2 md:space-x-4">
             <Input
               value={message}
               onChange={(e) => setMessage(e.target.value)}
