@@ -1,4 +1,3 @@
-
 import { Clock, User, Bot, FileText, Github, Linkedin } from "lucide-react";
 
 interface ChatHistory {
@@ -58,7 +57,7 @@ export const ChatSidebar = ({ type, chatHistory, patientInfo }: ChatSidebarProps
         </div>
       </div>
 
-      <div className="mt-auto pt-4 border-t border-slate-200">
+      <div className="mt-auto pt-6 pb-6 border-t border-slate-200">
         <div className="flex justify-center items-center gap-4">
           <a
             href="https://www.linkedin.com/in/omar-elhanafy-9a9257211"
