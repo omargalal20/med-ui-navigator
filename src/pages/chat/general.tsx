@@ -12,6 +12,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { ChatSidebar } from "@/components/chat-sidebar";
 
 const GeneralChat = () => {
   const [message, setMessage] = useState("");
@@ -56,33 +57,6 @@ const GeneralChat = () => {
     }
   };
 
-  const SidebarContent = () => (
-    <>
-      <div className="p-6 border-b border-slate-200">
-        <h2 className="text-lg font-semibold text-slate-900 mb-2">MedQuery AI</h2>
-        <p className="text-sm text-slate-600">
-          Your AI-powered medical consultation assistant. Ask questions about symptoms, 
-          treatments, drug interactions, and clinical protocols.
-        </p>
-      </div>
-      
-      <div className="flex-1 p-6">
-        <h3 className="text-sm font-medium text-slate-900 mb-4 flex items-center">
-          <Clock className="h-4 w-4 mr-2" />
-          Recent Conversations
-        </h3>
-        <div className="space-y-2">
-          {recentChats.map((chat) => (
-            <div key={chat.id} className="p-3 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer transition-colors">
-              <p className="text-sm font-medium text-slate-900 truncate">{chat.title}</p>
-              <p className="text-xs text-slate-500 mt-1">{chat.timestamp}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex">
       {/* Desktop Sidebar */}
@@ -95,7 +69,7 @@ const GeneralChat = () => {
             </Link>
           </Button>
         </div>
-        <SidebarContent />
+        <ChatSidebar type="general" chatHistory={recentChats} />
       </div>
 
       {/* Main Chat Area */}
@@ -122,8 +96,8 @@ const GeneralChat = () => {
                       </Button>
                     </DrawerTitle>
                   </DrawerHeader>
-                  <div className="flex-1 overflow-y-auto">
-                    <SidebarContent />
+                  <div className="flex-1 overflow-y-auto flex flex-col">
+                    <ChatSidebar type="general" chatHistory={recentChats} />
                   </div>
                 </DrawerContent>
               </Drawer>

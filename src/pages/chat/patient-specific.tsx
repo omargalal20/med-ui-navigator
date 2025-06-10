@@ -12,6 +12,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { ChatSidebar } from "@/components/chat-sidebar";
 
 const PatientSpecificChat = () => {
   const { id } = useParams();
@@ -32,6 +33,11 @@ const PatientSpecificChat = () => {
     { id: 4, title: "Exercise recommendations", timestamp: "2 weeks ago" },
     { id: 5, title: "Dietary consultation", timestamp: "1 month ago" }
   ];
+
+  const patientInfo = {
+    name: "Sarah Johnson",
+    conditions: ["Hypertension (2020)", "Type 2 Diabetes (2018)", "Allergic to Penicillin"]
+  };
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -57,44 +63,6 @@ const PatientSpecificChat = () => {
     }
   };
 
-  const SidebarContent = () => (
-    <>
-      <div className="p-6 border-b border-slate-200">
-        <div className="flex items-center space-x-2 mb-2">
-          <FileText className="h-5 w-5 text-emerald-600" />
-          <h2 className="text-lg font-semibold text-slate-900">Patient: Sarah Johnson</h2>
-        </div>
-        <p className="text-sm text-slate-600 mb-4">
-          AI consultation with access to patient medical history, current conditions, and treatment plans.
-        </p>
-        
-        <div className="bg-slate-50 p-3 rounded-lg">
-          <h3 className="text-sm font-medium text-slate-900 mb-2">Key Medical Info:</h3>
-          <ul className="text-xs text-slate-600 space-y-1">
-            <li>• Hypertension (2020)</li>
-            <li>• Type 2 Diabetes (2018)</li>
-            <li>• Allergic to Penicillin</li>
-          </ul>
-        </div>
-      </div>
-      
-      <div className="flex-1 p-6">
-        <h3 className="text-sm font-medium text-slate-900 mb-4 flex items-center">
-          <Clock className="h-4 w-4 mr-2" />
-          Patient Chat History
-        </h3>
-        <div className="space-y-2">
-          {patientChats.map((chat) => (
-            <div key={chat.id} className="p-3 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer transition-colors">
-              <p className="text-sm font-medium text-slate-900 truncate">{chat.title}</p>
-              <p className="text-xs text-slate-500 mt-1">{chat.timestamp}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex">
       {/* Desktop Sidebar */}
@@ -107,7 +75,7 @@ const PatientSpecificChat = () => {
             </Link>
           </Button>
         </div>
-        <SidebarContent />
+        <ChatSidebar type="patient" chatHistory={patientChats} patientInfo={patientInfo} />
       </div>
 
       {/* Main Chat Area */}
@@ -134,8 +102,8 @@ const PatientSpecificChat = () => {
                       </Button>
                     </DrawerTitle>
                   </DrawerHeader>
-                  <div className="flex-1 overflow-y-auto">
-                    <SidebarContent />
+                  <div className="flex-1 overflow-y-auto flex flex-col">
+                    <ChatSidebar type="patient" chatHistory={patientChats} patientInfo={patientInfo} />
                   </div>
                 </DrawerContent>
               </Drawer>
