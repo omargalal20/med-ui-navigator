@@ -1,4 +1,6 @@
-import { Clock, User, Bot, FileText, Github, Linkedin } from "lucide-react";
+
+import { Clock, User, Bot, FileText, Github, Linkedin, PlusCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ChatHistory {
   id: number;
@@ -15,9 +17,10 @@ interface ChatSidebarProps {
   type: 'general' | 'patient';
   chatHistory: ChatHistory[];
   patientInfo?: PatientInfo;
+  onNewChat: () => void;
 }
 
-export const ChatSidebar = ({ type, chatHistory, patientInfo }: ChatSidebarProps) => {
+export const ChatSidebar = ({ type, chatHistory, patientInfo, onNewChat }: ChatSidebarProps) => {
   return (
     <>
       <div className="p-6 border-b border-slate-200">
@@ -43,6 +46,14 @@ export const ChatSidebar = ({ type, chatHistory, patientInfo }: ChatSidebarProps
       </div>
       
       <div className="flex-1 p-6">
+        <Button
+          onClick={onNewChat}
+          className="w-full justify-center mb-4 bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          <PlusCircle className="mr-2 h-4 w-4" />
+          New Chat
+        </Button>
+        
         <h3 className="text-sm font-medium text-slate-900 mb-4 flex items-center">
           <Clock className="h-4 w-4 mr-2" />
           {type === 'general' ? 'Recent Conversations' : 'Patient Chat History'}

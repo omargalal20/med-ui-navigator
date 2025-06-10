@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +31,18 @@ const GeneralChat = () => {
     { id: 4, title: "Differential diagnosis for chest pain", timestamp: "3 days ago" },
     { id: 5, title: "Post-operative care guidelines", timestamp: "1 week ago" }
   ];
+
+  const handleNewChat = () => {
+    setMessages([
+      {
+        id: 1,
+        type: "ai",
+        content: "Hello! I'm your medical AI assistant. How can I help you with your clinical questions today?",
+        timestamp: new Date()
+      }
+    ]);
+    setMessage("");
+  };
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -69,7 +80,7 @@ const GeneralChat = () => {
             </Link>
           </Button>
         </div>
-        <ChatSidebar type="general" chatHistory={recentChats} />
+        <ChatSidebar type="general" chatHistory={recentChats} onNewChat={handleNewChat} />
       </div>
 
       {/* Main Chat Area */}
@@ -97,7 +108,7 @@ const GeneralChat = () => {
                     </DrawerTitle>
                   </DrawerHeader>
                   <div className="flex-1 overflow-y-auto flex flex-col">
-                    <ChatSidebar type="general" chatHistory={recentChats} />
+                    <ChatSidebar type="general" chatHistory={recentChats} onNewChat={handleNewChat} />
                   </div>
                 </DrawerContent>
               </Drawer>

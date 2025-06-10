@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,6 +38,18 @@ const PatientSpecificChat = () => {
     conditions: ["Hypertension (2020)", "Type 2 Diabetes (2018)", "Allergic to Penicillin"]
   };
 
+  const handleNewChat = () => {
+    setMessages([
+      {
+        id: 1,
+        type: "ai",
+        content: "Hello! I'm ready to assist with medical questions specific to Sarah Johnson. I have access to her medical history including hypertension, type 2 diabetes, and penicillin allergy. How can I help you today?",
+        timestamp: new Date()
+      }
+    ]);
+    setMessage("");
+  };
+
   const handleSendMessage = () => {
     if (message.trim()) {
       const newMessage = {
@@ -75,7 +86,7 @@ const PatientSpecificChat = () => {
             </Link>
           </Button>
         </div>
-        <ChatSidebar type="patient" chatHistory={patientChats} patientInfo={patientInfo} />
+        <ChatSidebar type="patient" chatHistory={patientChats} patientInfo={patientInfo} onNewChat={handleNewChat} />
       </div>
 
       {/* Main Chat Area */}
@@ -103,7 +114,7 @@ const PatientSpecificChat = () => {
                     </DrawerTitle>
                   </DrawerHeader>
                   <div className="flex-1 overflow-y-auto flex flex-col">
-                    <ChatSidebar type="patient" chatHistory={patientChats} patientInfo={patientInfo} />
+                    <ChatSidebar type="patient" chatHistory={patientChats} patientInfo={patientInfo} onNewChat={handleNewChat} />
                   </div>
                 </DrawerContent>
               </Drawer>
@@ -115,7 +126,6 @@ const PatientSpecificChat = () => {
               </h1>
             </div>
             
-            {/* Desktop Back Button */}
             <Button asChild variant="ghost" size="sm" className="hidden md:flex">
               <Link to={`/patients/${id}`} className="flex items-center space-x-2">
                 <ArrowLeft className="h-4 w-4" />
@@ -125,7 +135,6 @@ const PatientSpecificChat = () => {
           </div>
         </header>
 
-        {/* Messages Area */}
         <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
           {messages.map((msg) => (
             <div key={msg.id} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -156,7 +165,6 @@ const PatientSpecificChat = () => {
           ))}
         </div>
 
-        {/* Message Input */}
         <div className="border-t border-slate-200 bg-white p-4 md:p-6">
           <div className="flex space-x-2 md:space-x-4">
             <Input
